@@ -1,0 +1,46 @@
+---
+- name: SSHregen1
+  hosts: localhost
+  tasks:
+    - name: Generate SSHkeys
+      community.crypto.openssh_keypair:
+        path: ~/.ssh/id_rsa2
+        regenerate: always
+
+- name: Five minute plan
+  hosts: localhost
+  roles:
+    - SSHsecure
+
+- name: fix FTP
+  hosts: 10.5.1.6
+  tasks:
+    - name: unblock ftp port
+      community.general.ufw:
+        rule: allow
+        proto: tcp
+        port: 20:21
+
+- name: fix HTTP
+  hosts: 10.5.1.4
+  tasks:
+    - name: unblock ftp port
+      community.general.ufw:
+        rule: allow
+        proto: tcp
+        port: "{{ item }}"
+      loop:
+        - 80
+        - 443
+
+- name: fix Imap/SMTP
+  hosts: 10.5.1.5
+  tasks:
+    - name: unblock ftp port
+      community.general.ufw:
+        rule: allow
+        proto: tcp
+        port: "{{ item }}"
+      loop:
+        - 143
+        - 193

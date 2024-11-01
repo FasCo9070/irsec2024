@@ -1,0 +1,64 @@
+---
+- name: redistribute keys
+  ansible.posix.authorized_key:
+    user: root
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa2.pub') }}"
+- name: fix sshconfig
+  ansible.builtin.copy:
+    src: sshd_config
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: 0644
+
+
+# - name: repair PAM
+#   ansible.builtin.copy:
+
+
+- name: apt upgrade
+  ansible.builtin.apt:
+    upgrade: yes
+
+
+- name: install ufw & fail2ban
+  ansible.builtin.apt:
+    pkg:
+      - ufw
+      - fail2ban
+
+
+- name: Enable ufw
+  community.general.ufw:
+    state: enabled
+
+
+- name: portblock
+  community.general.ufw:
+    rule: deny
+    proto: any
+    port: "{{ item }}"
+    to_ip: "::"
+  loop:
+    - 7
+    - 19
+    - 9
+    - 13
+    - 20 #FTP
+    - 21 #FTP
+    - 115
+    - 990
+    - 23
+    - 67
+    - 68
+    - 80 #HTTP
+    - 443 #HTTP
+    - 161
+    - 162
+    - 1900
+    - 11371
+    - 389
+    - 67
+    - 69
+    - 143
+    - 993

@@ -1,0 +1,10 @@
+localhost:
+  hosts:
+    10.5.1.4 #Ubuntu
+    10.5.1.5 #Rocky 9
+    10.5.1.6 #Debian 12
+
+cloudhost:
+  hosts:
+    192.168.5.1 #FreeBSD
+    192.168.5.2 #Ubuntu 22.04
