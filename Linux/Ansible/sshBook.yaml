@@ -1,0 +1,17 @@
+---
+- name: SSHregen1
+  hosts: localhost
+  tasks:
+    - name: Generate SSHkeys
+      community.crypto.openssh_keypair:
+        path: ~/.ssh/id_rsa2
+        regenerate: always
+
+
+- name: SSHregen2
+  hosts: all
+  tasks:
+    - name: redistribute keys
+      ansible.posix.authorized_key:
+        user: root
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa2.pub') }}"
