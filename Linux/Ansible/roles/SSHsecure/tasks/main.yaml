@@ -33,6 +33,7 @@
     pkg:
       - ufw
       - fail2ban
+      - wireshark
 
 
 - name: Enable ufw
