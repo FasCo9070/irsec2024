@@ -70,3 +70,15 @@
     - 69
     - 143
     - 993
+
+# - name: Run wireshark
+#   ansible.builtin.systemd_service:
+#     enabled: true
+#     state: started
+#     name: wireshark
+
+- name: Run fail2ban
+  ansible.builtin.systemd_service:
+    enabled: true
+    state: started
+    name: fail2ban
