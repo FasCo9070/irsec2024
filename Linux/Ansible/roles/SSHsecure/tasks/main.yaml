@@ -16,6 +16,13 @@
 #   ansible.builtin.copy:
 
 
+- name: Userhunt Cron
+  ansible.builtin.cron:
+    backup: true
+    name: "User hunt"
+    job: localhunt.sh
+
+
 - name: apt upgrade
   ansible.builtin.apt:
     upgrade: yes
